@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Weather App</title>
+    <link rel="stylesheet" href="style.css" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/1.10.0/axios.min.js"
+        integrity="sha512-WkZrEcQ5LMyNy6Y2PQf+Tu3vMcsmKKRKuPXtJSTHQJ3mpuvLRlA5dlDDhrrcXfyWr6Z/y3wIMfjfqVFO/gDZYQ=="
+        crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script src="impFile.js"></script>
+   
+</head>
+<body>
+    <header class="top-heading">
+        <div class="weather-text">
+            <h1>Weather</h1>
+        </div>
+        <div class="search-aux">
+            <form onsubmit="handleSearch(event)" method="" class="form-city-input">
+                <input placeholder="Enter City Name" class="input" id="city-input" >
+                <button id="search-city">🔍Search</button>
+            </form>
+            <button id="current-location" onClick="getCurrentLocation()">📍Current Location</button> 
+        </div>
+    </header>
+    <div class="content-layout">
+        <section class="left-side-content">
+            <div class="temperature-info">
+                <p>Now</p>
+                <div class="numeral-temp">
+                    <p id="curr-temp"></p>
+                    <p id="weather-cond"></p>
+                </div>
+                <p id="weather-cond-desc"></p>
+                <div class="line"></div>
+                <div class="place-info">
+                    <p id="date-info">🗓️<span id="date-day"></span></p>
+                    <p id="location-info">📌<span id="curr-location"></span></p>
+                </div>
+            </div>
+            <div class="future-forecast">
+                <h2 id="h2-size">5 Days Forecast</h2>
+                <div class="day-forecast">
+                   <article class="specify-day">
+                    <div class='temp-icon'>
+                        <img class="weather-icon"></img>
+                        <span class="temp"></span>
+                    </div>
+                    <span class="date-for"></span>
+                    <span class="day-for"></span>
+                  </article>
+                  <article class="specify-day">
+                    <div class='temp-icon'>
+                        <img class="weather-icon"></img>
+                        <span class="temp"></span>
+                    </div>                    <span class="date-for"></span>
+                    <span class="day-for"></span>
+                  </article>
+                   <article class="specify-day">
+                    <div class='temp-icon'>
+                        <img class="weather-icon"></img>
+                        <span class="temp"></span>
+                    </div>                    <span class="date-for"></span>
+                    <span class="day-for"></span>
+                  </article><article class="specify-day">
+                    <div class='temp-icon'>
+                        <img class="weather-icon"></img>
+                        <span class="temp"></span>
+                    </div>                    <span class="date-for"></span>
+                    <span class="day-for"></span>
+                  </article>
+                  <article class="specify-day">
+                    <div class='temp-icon'>
+                        <img class="weather-icon"></img>
+                        <span class="temp"></span>
+                    </div>                    <span class="date-for"></span>
+                    <span class="day-for"></span>
+                  </article>
+                </div>
+            </div>
+        </section>
+        <div class="right-grid">
+            <div class="weather-info">
+                <h2 class="grid-heading">Today's Highlights</h2>
+                <div id="air-info">
+                    <div class="sub-heading-text">
+                        <p>Air Qualify Index</p>
+                        <p id="air-quality-index"></p>
+                    </div>
+                    <div class="air">
+                        <img src="img/air-quality.png" alt="air-quality-logo" id="air-quality"/>
+                    </div>
+                    <div class="air quantity"><span class="text-gray pull-down">CO</span>
+                    <span class="air-mag"></span></div>
+                    <div class="air quantity"><span class="text-gray pull-down">NO</span>
+                    <span class="air-mag"></span></div>
+                    <div class="air quantity"><span class="text-gray pull-down">NO2</span><span class="air-mag"></span></div>
+                    <div class="air quantity"><span class="text-gray pull-down">O3</span><span class="air-mag"></span></div>
+                    <div class="air quantity"><span class="text-gray pull-down">SO2</span><span class="air-mag"></span></div>
+                    <div class="air quantity"><span class="text-gray pull-down">PM2.5</span><span class="air-mag"></span></div>
+                    <div class="air quantity"><span class="text-gray pull-down">PM10</span><span class="air-mag"></span></div>
+                    <div class="air quantity"><span class="text-gray pull-down">NH3</span><span class="air-mag"></span></div>
+                </div>
+                <div id="sun-routine">
+                    <div class="sub-heading-text">
+                        <p>Sunrise & Sunset</p>
+                    </div>
+                    <div class="sun-logo" id="sunrise">
+                        <img src="img\sunrise.png" alt="SunRise-logo" />
+                    </div>
+                    <div class="sun-timing">
+                        <p class="text-gray">Sunrise</p>
+                        <p class="text-display" id="sunrise-time"></p>
+                    </div>
+                    <div class="sun-logo" id="sunset">
+                        <img src="img\sunset.png" alt="SunSet-logo" />
+                    </div>
+                    <div class="sun-timing">
+                        <p class="text-gray">Sunset</p>
+                        <p class="text-display" id="sunset-time"></p>
+                    </div>
+                </div>
+                <div class="temp-parameter">
+                    <p class="text-gray">Humidity</p>
+                    <div class="param-info">
+                        <span class="icon">
+                            <img src="img\humidity.png" alt="humidity-logo"/>
+                        </span>
+                        <span class="magnitude"></span>
+                    </div>
+                </div>
+                <div class="temp-parameter">
+                    <p class="text-gray">Presure</p>
+                    <div class="param-info">
+                        <span class="icon">
+                            <img src="img\thermometer.png" alt="Pressure-logo"/>
+                        </span>
+                        <span class="magnitude"></span>
+                    </div>
+                </div>
+                <div class="temp-parameter">
+                    <p class="text-gray">Visibility</p>
+                    <div class="param-info">
+                        <span class="icon">
+                            <img src="img\visible.png" alt="Visibility-logo" />
+                        </span>
+                        <span class="magnitude"></span>
+                    </div>
+                </div>
+                <div class="temp-parameter">
+                    <p class="text-gray">Wind Speed</p>
+                    <div class="param-info">
+                        <span class="icon">
+                            <img src="img\signal.png" alt="WindSpeed-logo" />
+                        </span>
+                        <span class="magnitude"></span>
+                    </div>
+                </div>
+                <div class="temp-parameter">
+                    <p class="text-gray">Feels Like</p>
+                    <div class="param-info">
+                        <span class="icon">
+                            <img src="img\celsius.png" alt="temperature-logo" />
+                        </span>
+                        <span class="magnitude"></span>
+                    </div>
+                </div>
+            </div>
+            <div class="today-temp">
+                <h2 class="grid-heading">Today at</h2>
+
+                <div class="at-time">
+                    <section class="time"></section>
+                    <img class="weather-pic">
+                    <section class="time-temp"></section>
+                </div>
+                <div class="at-time">
+                    <section class="time"></section>
+                    <img class="weather-pic">
+                    <section class="time-temp"></section>
+                </div>
+                <div class="at-time">
+                    <section class="time"></section>
+                    <img class="weather-pic">
+                    <section class="time-temp"></section>
+                </div>
+                <div class="at-time">
+                    <section class="time"></section>
+                    <img class="weather-pic">
+                    <section class="time-temp"></section>
+                </div>
+                <div class="at-time">
+                    <section class="time"></section>
+                    <img class="weather-pic">
+                    <section class="time-temp"></section>
+                </div>
+                <div class="at-time">
+                    <section class="time"></section>
+                    <img class="weather-pic">
+                    <section class="time-temp"></section>
+                </div>
+               
+                <div class="at-time">
+                    <section class="time"></section>
+                    <img class="weather-pic">
+                    <section class="time-temp"></section>
+                </div>
+                <div class="at-time">
+                    <section class="time"></section>
+                    <img class="weather-pic">
+                    <section class="time-temp"></section>
+                </div>
+                
+                
+
+            </div>
+            
+        </div>
+    </div>
+    <script src="index.js"></script>
+</body>
+</html>
